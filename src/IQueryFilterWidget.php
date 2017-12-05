@@ -33,6 +33,12 @@ interface IQueryFilterWidget
     public function applyToDataProvider(DataProviderInterface $dataProvider);
 
     /**
+     * @param IQueryFilterHandler $queryFilterHandler
+     * @return $this
+     */
+    public function registerHandler(IQueryFilterHandler $queryFilterHandler);
+
+    /**
      * @param $data
      */
     public function load($data);

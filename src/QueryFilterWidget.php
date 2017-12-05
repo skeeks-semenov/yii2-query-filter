@@ -40,12 +40,23 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
             if (is_string($config)) {
                 $config = ['class' => $config];
             }
-            $config['id'] = $id;
-            $this->handlers[$id] = \Yii::createObject($config);
-            if (!$this->handlers[$id] instanceof IQueryFilterHandler) {
-                unset($this->handlers[$id]);
+
+            $handler = \Yii::createObject($config);
+            if ($handler instanceof IQueryFilterHandler) {
+                $this->handlers[] = $handler;
             }
+
         }
+    }
+
+    /**
+     * @param IQueryFilterHandler $queryFilterHandler
+     * @return $this
+     */
+    public function registerHandler(IQueryFilterHandler $queryFilterHandler)
+    {
+        $this->handlers[] = $queryFilterHandler;
+        return $this;
     }
 
     /**
