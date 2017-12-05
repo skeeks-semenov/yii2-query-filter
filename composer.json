@@ -1,0 +1,27 @@
+{
+	"name": "skeeks/yii2-query-filter",
+	"description": "Yii2 query filter",
+	"keywords": ["yii", "yii2"],
+    "homepage": "https://skeeks.com/",
+	"type": "yii2-extension",
+	"license": "GPL-3.0+",
+	"support": {
+        "issues": "https://www.skeeks.com/",
+        "wiki": "https://cms.skeeks.com/",
+        "source": "https://github.com/skeeks-semenov/yii2-query-filter"
+    },
+	"authors": [
+		{
+			"name": "Semenov Alexander",
+			"email": "semenov@skeeks.com"
+		}
+	],
+	"require": {
+		"yiisoft/yii2": "~2.0.13"
+	},
+    "autoload": {
+        "psr-4": {
+            "skeeks\\yii2\\queryfilter\\": "src/"
+        }
+    }
+}
