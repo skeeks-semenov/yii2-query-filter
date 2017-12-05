@@ -11,14 +11,16 @@ namespace skeeks\yii2\queryfilter;
 use common\models\V3pFeature;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
+use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class QueryFilterWidget
  * @package skeeks\yii2\queryfilter
  */
-class QueryFilterWidget extends Widget
+class QueryFilterWidget extends Widget implements IQueryFilterWidget
 {
     /**
      * @var
@@ -55,74 +57,44 @@ class QueryFilterWidget extends Widget
         return $this->render($this->viewFile);
     }
 
+    /**
+     * @return $this
+     */
     public function registerAssets()
     {
         return $this;
     }
 
     /**
-     * @param ActiveQuery $activeQuery
+     * @param QueryInterface $activeQuery
      * @return $this
      */
-    public function search(ActiveQuery $activeQuery)
+    public function applyToQuery(QueryInterface $activeQuery)
     {
-        if ($this->filtersHandlers) {
-            foreach ($this->filtersHandlers as $searchHandler) {
-                $searchHandler->initQuery($activeQuery);
+        if ($this->handlers) {
+            foreach ($this->handlers as $searchHandler) {
+                $searchHandler->applyToQuery($activeQuery);
             }
         }
 
         return $this;
     }
 
-    public $filtersParamName = 'f';
-
-    protected $_data = [];
-
-    public function loadFromRequest()
+    /**
+     * @param DataProviderInterface $dataProvider
+     * @return $this
+     */
+    public function applyToDataProvider(DataProviderInterface $dataProvider)
     {
-
-        if ($data = \Yii::$app->request->post()) {
-            //Чистить незаполненные
-            if (isset($data[$this->filtersParamName])) {
-                foreach ($data[$this->filtersParamName] as $key => $value) {
-                    if (!$value) {
-                        unset($data[$this->filtersParamName][$key]);
-                    }
-                }
+        if ($this->handlers) {
+            foreach ($this->handlers as $searchHandler) {
+                $searchHandler->applyToDataProvider($activeQuery);
             }
-            if (isset($data['_csrf'])) {
-                unset($data['_csrf']);
-            }
-
-            $this->_data = $data;
-            $this->load($data);
-
-            /*\Yii::$app->response->redirect($this->getFilterUrl());
-            \Yii::$app->end();*/
-
-            $newUrl = $this->getFilterUrl();
-            \Yii::$app->view->registerJs(<<<JS
-window.history.pushState('page', 'title', '{$newUrl}');
-JS
-            );
-
-
-        } elseif ($data = \Yii::$app->request->get($this->filtersParamName)) {
-            $data = (array)unserialize(base64_decode($data));
-            $this->_data = $data;
-            $this->load($data);
         }
 
         return $this;
     }
 
-    public function getFilterUrl()
-    {
-        return \Yii::$app->request->absoluteUrl . "?" . http_build_query([
-                $this->filtersParamName => base64_encode(serialize($this->_data))
-            ]);
-    }
 
     /**
      * @param $data
@@ -130,13 +102,12 @@ JS
      */
     public function load($data)
     {
-        if ($this->filtersHandlers) {
-            foreach ($this->filtersHandlers as $searchHandler) {
+        if ($this->handlers) {
+            foreach ($this->handlers as $searchHandler) {
                 $searchHandler->load($data);
             }
         }
 
         return $this;
     }
-
 }

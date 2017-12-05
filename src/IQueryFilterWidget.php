@@ -14,15 +14,11 @@ use yii\db\QueryInterface;
 use yii\widgets\ActiveForm;
 
 /**
- * Interface IQueryFilterHandler
+ * Interface IQueryFilterWidget
  * @package skeeks\yii2\queryfilter
  */
-interface IQueryFilterHandler
+interface IQueryFilterWidget
 {
-    /**
-     * @return mixed
-     */
-    public function init();
 
     /**
      * @param QueryInterface $activeQuery
@@ -40,10 +36,4 @@ interface IQueryFilterHandler
      * @param $data
      */
     public function load($data);
-
-    /**
-     * @param string $code
-     * @return string
-     */
-    public function render(ActiveForm $form);
 }
