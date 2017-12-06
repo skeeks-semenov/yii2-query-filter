@@ -68,8 +68,18 @@ JS
 
     public function getFilterUrl()
     {
-        return \Yii::$app->request->absoluteUrl . "?" . http_build_query([
-                $this->filtersParamName => base64_encode(serialize($this->_data))
-            ]);
+        $data = [
+            $this->filtersParamName => base64_encode(serialize($this->_data))
+        ];
+        $data = array_merge($data, (array) $_GET);
+        \Yii::$app->request->setQueryParams($data);
+
+        $url = \Yii::$app->request->absoluteUrl;
+
+        if ($pos = strpos($url, "?")) {
+            $url = substr($url, 0, $pos);
+        }
+
+        return $url . "?" . http_build_query($data);
     }
 }
