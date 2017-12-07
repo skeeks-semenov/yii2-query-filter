@@ -71,7 +71,7 @@ JS
         $data = [
             $this->filtersParamName => base64_encode(serialize($this->_data))
         ];
-        $data = array_merge($data, (array) $_GET);
+        $data = array_merge((array) $_GET, $data);
         \Yii::$app->request->setQueryParams($data);
 
         $url = \Yii::$app->request->absoluteUrl;
