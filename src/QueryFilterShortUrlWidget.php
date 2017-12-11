@@ -33,15 +33,19 @@ class QueryFilterShortUrlWidget extends QueryFilterWidget
 
         if ($data = \Yii::$app->request->post()) {
             //Чистить незаполненные
-            if (isset($data[$this->filtersParamName])) {
-                foreach ($data[$this->filtersParamName] as $key => $value) {
-                    if (!$value) {
-                        unset($data[$this->filtersParamName][$key]);
-                    }
-                }
-            }
+
             if (isset($data['_csrf'])) {
                 unset($data['_csrf']);
+            }
+
+            foreach ($data as $handlerName => $handlerData) {
+                if (is_array($data[$handlerName])) {
+                    foreach ($data[$handlerName] as $key => $value) {
+                        if (!$value && $value != '0') {
+                            unset($data[$handlerName][$key]);
+                        }
+                    }
+                }
             }
 
             $this->_data = $data;
