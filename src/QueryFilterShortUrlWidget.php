@@ -72,10 +72,14 @@ JS
 
     public function getFilterUrl()
     {
+        $dataTmp = $this->_data;
+        ksort($dataTmp);
+
         $data = [
-            $this->filtersParamName => base64_encode(serialize($this->_data))
+            $this->filtersParamName => base64_encode(serialize($dataTmp))
         ];
         $data = array_merge((array) $_GET, $data);
+
         \Yii::$app->request->setQueryParams($data);
 
         $url = \Yii::$app->request->absoluteUrl;
