@@ -80,8 +80,6 @@ JS
         ];
         $data = array_merge((array) $_GET, $data);
 
-        /*ArrayHelper::remove($data, 'id');*/
-
         \Yii::$app->request->setQueryParams($data);
 
         $url = \Yii::$app->request->absoluteUrl;
@@ -90,6 +88,7 @@ JS
             $url = substr($url, 0, $pos);
         }
 
+        ArrayHelper::remove($data, 'id');
         return $url . "?" . http_build_query($data);
     }
 }
