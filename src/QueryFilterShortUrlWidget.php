@@ -80,6 +80,8 @@ JS
         ];
         $data = array_merge((array) $_GET, $data);
 
+        ArrayHelper::remove($data, 'id');
+
         \Yii::$app->request->setQueryParams($data);
 
         $url = \Yii::$app->request->absoluteUrl;
