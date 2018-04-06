@@ -109,16 +109,22 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
 
     /**
      * @param $data
-     * @return $this
+     * @return bool
      */
     public function load($data)
     {
+        $success = true;
+
         if ($this->handlers) {
             foreach ($this->handlers as $searchHandler) {
-                $searchHandler->load($data);
+                if (!$searchHandler->load($data)) {
+                    $r = new \ReflectionClass($searchHandler);
+                    \Yii::error('Not load data to: ' . $r->getName() . "; data: " . print_r($data, true));
+                    $success = false;
+                }
             }
         }
 
-        return $this;
+        return $success;
     }
 }
