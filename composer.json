@@ -4,7 +4,7 @@
 	"keywords": ["yii", "yii2"],
     "homepage": "https://skeeks.com/",
 	"type": "yii2-extension",
-	"license": "GPL-3.0+",
+	"license": "BSD-3-Clause",
 	"support": {
         "issues": "https://www.skeeks.com/",
         "wiki": "https://cms.skeeks.com/",
@@ -17,7 +17,7 @@
 		}
 	],
 	"require": {
-		"yiisoft/yii2": "~2.0.13"
+		"yiisoft/yii2": "^2.0.16 || dev-master"
 	},
     "autoload": {
         "psr-4": {
