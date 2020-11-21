@@ -53,10 +53,24 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
      * @param IQueryFilterHandler $queryFilterHandler
      * @return $this
      */
-    public function registerHandler(IQueryFilterHandler $queryFilterHandler)
+    public function registerHandler(IQueryFilterHandler $queryFilterHandler, $name = null)
     {
-        $this->handlers[] = $queryFilterHandler;
+        if ($name && is_string($name)) {
+            $this->handlers[$name] = $queryFilterHandler;
+        } else {
+            $this->handlers[] = $queryFilterHandler;
+        }
+        
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return IQueryFilterHandler
+     */
+    public function getHandler(string $name)
+    {
+        return ArrayHelper::getValue($this->handlers, $name);
     }
 
     /**
