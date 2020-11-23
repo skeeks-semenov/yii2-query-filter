@@ -1,9 +1,9 @@
 <?php
 /**
+ * @link https://cms.skeeks.com/
+ * @copyright Copyright (c) 2010 SkeekS
+ * @license https://cms.skeeks.com/license/
  * @author Semenov Alexander <semenov@skeeks.com>
- * @link https://skeeks.com/
- * @copyright (c) 2010 SkeekS
- * @date 13.11.2017
  */
 
 namespace skeeks\yii2\queryfilter;
@@ -60,9 +60,10 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
         } else {
             $this->handlers[] = $queryFilterHandler;
         }
-        
+
         return $this;
     }
+
 
     /**
      * @param string $name
@@ -133,7 +134,7 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
             foreach ($this->handlers as $searchHandler) {
                 if (!$searchHandler->load($data)) {
                     $r = new \ReflectionClass($searchHandler);
-                    \Yii::error('Not load data to: ' . $r->getName() . "; data: " . print_r($data, true));
+                    \Yii::error('Not load data to: '.$r->getName()."; data: ".print_r($data, true));
                     $success = false;
                 }
             }
