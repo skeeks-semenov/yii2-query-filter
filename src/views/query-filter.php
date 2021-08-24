@@ -9,16 +9,7 @@
 /* @var $this \skeeks\yii2\queryfilter\QueryFilterWidget */
 $wiget = $this->context;
 ?>
-<? $form = \yii\widgets\ActiveForm::begin([
-    'method' => 'post',
-    'action' => "/" . \Yii::$app->request->pathInfo,
-    'options' => [
-        'data' => [
-            'pjax' => 1
-        ]
-    ]
-]); ?>
-
+<? $form = \yii\widgets\ActiveForm::begin($wiget->activeFormConfig); ?>
 <? foreach ($wiget->hand as $filtersHandler) : ?>
     <?= $filtersHandler->render($form); ?>
 <? endforeach; ?>

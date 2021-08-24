@@ -32,9 +32,21 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
      */
     public $handlers = [];
 
+    public $activeFormConfig = [];
+
     public function init()
     {
         parent::init();
+
+        $this->activeFormConfig = ArrayHelper::merge([
+            'method' => 'post',
+            'action' => "/" . \Yii::$app->request->pathInfo,
+            'options' => [
+                'data' => [
+                    'pjax' => 1
+                ]
+            ]
+        ], $this->activeFormConfig);
 
         foreach ($this->handlers as $id => $config) {
             if (is_string($config)) {
