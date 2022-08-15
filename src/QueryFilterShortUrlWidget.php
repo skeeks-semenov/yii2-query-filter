@@ -15,6 +15,7 @@ use yii\data\DataProviderInterface;
 use yii\db\ActiveQuery;
 use yii\db\QueryInterface;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * @property string $filterUrl
@@ -48,9 +49,16 @@ class QueryFilterShortUrlWidget extends QueryFilterWidget
                 }
             }
 
+            foreach ($data as $handlerName => $handlerData) {
+                if (!$data[$handlerName]) {
+                    unset($data[$handlerName]);
+                }
+            }
+
             $this->_data = $data;
             $this->load($data);
 
+            //print_r($data);die;
             /*\Yii::$app->response->redirect($this->getFilterUrl());
             \Yii::$app->end();*/
 
@@ -62,7 +70,7 @@ JS
 
 
         } elseif ($data = \Yii::$app->request->get($this->filtersParamName)) {
-            $data = (array)unserialize(base64_decode($data));
+            $data = (array)Json::decode(base64_decode($data));
             $this->_data = $data;
             $this->load($data);
         }
@@ -72,11 +80,16 @@ JS
 
     public function getFilterUrl()
     {
+        if (!$this->_data) {
+            return \Yii::$app->request->absoluteUrl;
+        }
+
         $dataTmp = $this->_data;
         ksort($dataTmp);
 
+
         $data = [
-            $this->filtersParamName => base64_encode(serialize($dataTmp))
+            $this->filtersParamName => base64_encode(Json::encode($dataTmp))
         ];
         $data = array_merge((array) $_GET, $data);
 
