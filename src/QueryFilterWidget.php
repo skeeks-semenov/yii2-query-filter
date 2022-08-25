@@ -146,7 +146,7 @@ class QueryFilterWidget extends Widget implements IQueryFilterWidget
             foreach ($this->handlers as $searchHandler) {
                 if (!$searchHandler->load($data)) {
                     $r = new \ReflectionClass($searchHandler);
-                    \Yii::error('Not load data to: '.$r->getName()."; data: ".print_r($data, true));
+                    //\Yii::error('Not load data to: '.$r->getName()."; data: ".print_r($data, true));
                     $success = false;
                 }
             }
